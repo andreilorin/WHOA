@@ -9,6 +9,7 @@ func main() {
 	http.HandleFunc("/", runApp)
 	http.HandleFunc("/home", home)
 	http.HandleFunc("/about", about)
+	http.HandleFunc("/static/", serveStatic)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -22,4 +23,8 @@ func home(writer http.ResponseWriter, request *http.Request) {
 
 func about(writer http.ResponseWriter, request *http.Request) {
 	io.WriteString(writer, "<h1>About page<h1>")
+}
+
+func serveStatic(writer http.ResponseWriter, request *http.Request) {
+	http.ServeFile(writer, request, request.URL.Path[1:])
 }
